@@ -32,6 +32,4 @@ jobs:
         PIPENV_VENV_IN_PROJECT: 1  # Store the virtual environment in the project directory
 
     - name: 🚀 Start Django Development Server with pipenv
-      run: |
-        pipenv shell
-        python3 manage.py runserver 0.0.0.0:8000
+      run: pipenv run python manage.py runserver 0.0.0.0:8000
