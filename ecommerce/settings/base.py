@@ -8,10 +8,11 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get('SECRET_KEY', '${{ secrets.ftp_password }}')
 
 
-DEBUG = os.environ.get("DEBUG")
+DEBUG = False
 
 
 INSTALLED_APPS = [
