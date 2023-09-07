@@ -9,9 +9,7 @@ from ecommerce.settings import base
 def main():
     """Run administrative tasks."""
     if base.DEBUG:
-        os.environ.setdefault(
-            "DJANGO_SETTINGS_MODULE", "ecommerce.settings.development"
-        )
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ecommerce.settings.development")
     else:
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ecommerce.settings.production")
 
