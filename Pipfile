@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+flake8 = "*"
+isort = "*"
+sentry-sdk = "*"
+psycopg2-binary = "*"
+requests = "*"
+black = "*"
+pre-commit = "*"
+pytest-django = "*"
+celery = "*"
+redis = "*"
+flower = "*"
+pytest-cov = "*"
+pytest-factoryboy = "*"
+django-dotenv = "*"
+python-dotenv = "*"
+pytest = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
