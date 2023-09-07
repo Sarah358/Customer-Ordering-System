@@ -20,9 +20,9 @@ jobs:
         server-dir: /ecom.sarahnjuguna.com/
      # Additional steps to deploy the Django app using pipenv
     - name: 🐍 Set up Python and pipenv
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v2
       with:
-        python-version: 3.10
+        python-version: 3.9
 
     - name: 📦 Install Dependencies with pipenv
       run: |
