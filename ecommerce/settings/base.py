@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     # external packages
     "rest_framework",
     # internal apps
+    'ecommerce.apps.products',
+    'ecommerce.apps.customers',
 ]
 
 MIDDLEWARE = [
