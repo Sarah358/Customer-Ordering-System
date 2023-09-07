@@ -21,11 +21,11 @@ repos:
       - id: debug-statements
       - id: detect-private-key
       - id: end-of-file-fixer
-        exclude: |
-          (?x)^(
-                .cm/gitstream.cm
+        # exclude: |
+        #   (?x)^(
+        #         .cm/gitstream.cm
 
-            )$
+        #     )$
 
       - id: file-contents-sorter
       - id: forbid-new-submodules

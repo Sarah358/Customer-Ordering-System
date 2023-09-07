@@ -6,16 +6,13 @@
     "python.linting.lintOnSave":true,
     "python.linting.flake8Enabled":true,
     "python.linting.flake8Args" :["--max-line-length",88],
-
-   
-
-
     "[python]":{
-      
+
       "editor.codeActionsOnSave": {
         "source.organizeImports": true
       },
       "editor.defaultFormatter": "ms-python.black-formatter"
-      
+
+
     }
   }
