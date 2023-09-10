@@ -19,9 +19,11 @@ redis = "*"
 flower = "*"
 pytest-cov = "*"
 pytest-factoryboy = "*"
-django-dotenv = "*"
-python-dotenv = "*"
 pytest = "*"
+django-environ = "*"
+watchdog = "*"
+pyyaml = "*"
+argh = "*"
 
 [dev-packages]
 
