@@ -1,24 +1,23 @@
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
+import environ
 
-load_dotenv()
+env = environ.Env(DEBUG=(bool, False))
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+environ.Env.read_env(BASE_DIR / ".env")
+
+SECRET_KEY = env("SECRET_KEY")
 
 
-# SECRET_KEY = os.environ.get("SECRET_KEY")
-SECRET_KEY = os.environ.get('SECRET_KEY', '${{ secrets.ftp_password }}')
-
-
-DEBUG = False
+DEBUG = env("DEBUG")
 
 
 INSTALLED_APPS = [
+    "django.contrib.contenttypes",
     "django.contrib.admin",
     "django.contrib.auth",
-    "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
@@ -85,7 +84,11 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = "static/"
+STATIC_URL = '/staticfiles/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIR = []
+MEDIA_URL = '/mediafiles/'
+MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

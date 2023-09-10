@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -o errexit
+
+set -o nounset
+
+# watchdog ensures workers start automatically
+watchmedo auto-restart -d ecommerce/ -p "*.py" -- celery worker -A ecommerce --loglevel=info
