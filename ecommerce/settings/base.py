@@ -1,7 +1,10 @@
+import logging
+import logging.config
 import os
 from pathlib import Path
 
 import environ
+from django.utils.log import DEFAULT_LOGGING
 
 env = environ.Env(DEBUG=(bool, False))
 
@@ -9,6 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 environ.Env.read_env(BASE_DIR / ".env")
 
 SECRET_KEY = env("SECRET_KEY")
+JWT_SECRET = env("JWT_SECRET")
+
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")])
 
 
 DEBUG = env("DEBUG")
@@ -23,9 +29,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # external packages
     "rest_framework",
+    "drf_spectacular",
     # internal apps
     'ecommerce.apps.products',
-    'ecommerce.apps.customers',
+    'ecommerce.apps.users',
+    'ecommerce.apps.orders',
 ]
 
 MIDDLEWARE = [
@@ -39,6 +47,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "ecommerce.urls"
+
 
 TEMPLATES = [
     {
@@ -75,6 +84,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Ecommerce',
+}
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -92,3 +108,48 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# custom user model
+AUTH_USER_MODEL = "users.User"
+
+
+# define loggers
+
+
+# python logging instance
+logger = logging.getLogger(__name__)
+
+# global log levels
+LOG_LEVEL = "INFO"
+
+# configure loggings
+logging.config.dictConfig(
+    {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "console": {
+                "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
+            },
+            "file": {
+                "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
+            },
+        },
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "formatter": "console",
+            },
+            "file": {
+                "level": "INFO",
+                "class": "logging.FileHandler",
+                "formatter": "file",
+                "filename": "logs/ecommerce.log",
+            },
+        },
+        "loggers": {
+            "": {"level": "INFO", "handlers": ["console", "file"], "propagate": False},
+            "apps": {"level": "INFO", "handlers": ["console"], "propagate": False},
+        },
+    }
+)

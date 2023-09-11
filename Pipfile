@@ -24,6 +24,10 @@ django-environ = "*"
 watchdog = "*"
 pyyaml = "*"
 argh = "*"
+pillow = "*"
+drf-spectacular = "*"
+africastalking = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
