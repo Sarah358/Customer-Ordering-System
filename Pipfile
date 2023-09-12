@@ -28,6 +28,10 @@ pillow = "*"
 drf-spectacular = "*"
 africastalking = "*"
 djangorestframework-simplejwt = "*"
+django-phonenumber-field = "*"
+phonenumbers = "*"
+djoser = "*"
+pyjwt = "*"
 
 [dev-packages]
 
