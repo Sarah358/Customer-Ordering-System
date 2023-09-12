@@ -8,8 +8,8 @@ router = DefaultRouter()
 urlpatterns = [
     path("users/", include("ecommerce.apps.users.urls", namespace="users")),
     path("profile/", include("ecommerce.apps.profiles.urls", namespace="profiles")),
-    # path("products/", include("ecommerce.apps.products.urls", namespace="products")),
-    # path("orders/", include("ecommerce.apps.orders.urls", namespace="orders")),
+    path("products/", include("ecommerce.apps.products.urls", namespace="products")),
+    path("orders/", include("ecommerce.apps.orders.urls", namespace="orders")),
 ]
 
 urlpatterns += router.urls

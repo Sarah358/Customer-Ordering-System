@@ -4,5 +4,5 @@ set -o errexit
 
 set -o nounset
 
-# watchdog ensures workers start automatically
-watchmedo auto-restart -d ecommerce/ -p "*.py" -- celery worker -A ecommerce --loglevel=info
+# watchdog ensures workers start automatically- resolves autoreloading issue
+watchmedo auto-restart -d ecommerce/ -p "*.py" -- celery -A ecommerce worker --loglevel=info

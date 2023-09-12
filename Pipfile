@@ -16,7 +16,6 @@ pre-commit = "*"
 pytest-django = "*"
 celery = "*"
 redis = "*"
-flower = "*"
 pytest-cov = "*"
 pytest-factoryboy = "*"
 pytest = "*"
@@ -32,6 +31,9 @@ django-phonenumber-field = "*"
 phonenumbers = "*"
 djoser = "*"
 pyjwt = "*"
+django-celery-email = "*"
+flower = "*"
+django-flower = "*"
 
 [dev-packages]
 

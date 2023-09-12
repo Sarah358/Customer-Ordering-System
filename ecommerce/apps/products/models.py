@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 
@@ -12,6 +13,12 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # Generate the slug from the name field
+        self.slug = slugify(self.name)
+
+        super(Category, self).save(*args, **kwargs)
 
 
 # set default category to others
@@ -41,3 +48,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # Generate the slug from the name field
+        self.slug = slugify(self.name)
+
+        super(Product, self).save(*args, **kwargs)

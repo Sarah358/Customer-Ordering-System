@@ -37,37 +37,37 @@ services:
         networks:
             - ecommerce
 
-    # celery_worker:
-    #     build:
-    #         context: .
-    #         dockerfile: ./docker/local/django/Dockerfile
-    #     command: /start-celeryworker
-    #     volumes:
-    #         - .:/app
-    #     env_file:
-    #         - .env
-    #     depends_on:
-    #         - redis
-    #         - postgres-db
-    #     networks:
-    #         - ecommerce
+    celery_worker:
+        build:
+            context: .
+            dockerfile: ./docker/local/django/Dockerfile
+        command: /start-celeryworker
+        volumes:
+            - .:/app
+        env_file:
+            - .env
+        depends_on:
+            - redis
+            - postgres-db
+        networks:
+            - ecommerce
 
-    # flower:
-    #     build:
-    #         context: .
-    #         dockerfile: ./docker/local/django/Dockerfile
-    #     command: /start-flower
-    #     volumes:
-    #         - .:/app
-    #     env_file:
-    #         - .env
-    #     ports:
-    #         - "5557:5555"
-    #     depends_on:
-    #         - redis
-    #         - postgres-db
-    #     networks:
-    #         - ecommerce
+    flower:
+        build:
+            context: .
+            dockerfile: ./docker/local/django/Dockerfile
+        command: /start-flower
+        volumes:
+            - .:/app
+        env_file:
+            - .env
+        ports:
+            - "5557:5555"
+        depends_on:
+            - redis
+            - postgres-db
+        networks:
+            - ecommerce
 
 networks:
     ecommerce:

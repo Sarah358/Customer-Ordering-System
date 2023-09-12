@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 environ.Env.read_env(BASE_DIR / ".env")
 
 SECRET_KEY = env("SECRET_KEY")
-JWT_SECRET = env("JWT_SECRET")
+
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")])
 
@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'djoser',
     'rest_framework_simplejwt',
+    'flower',
     # internal apps
     'ecommerce.apps.common',
     'ecommerce.apps.profiles',
@@ -193,6 +194,7 @@ DJOSER = {
     "PASSWORD_RESET_CONFIRM_RETYPE": True,
     "USERNAME_RESET_CONFIRM_URL": 'email/reset/confirm/{uid}/{token}',
     "ACTIVATION_URL": "activate/{uid}/{token}",
+    "LOGOUT_URL": 'logout',
     "SEND_ACTIVATION_EMAIL": True,
     "SERIALIZERS": {
         'user_create': 'ecommerce.apps.users.serializers.CreateUserSerializer',
