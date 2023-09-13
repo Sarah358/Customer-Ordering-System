@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'flower',
     # internal apps
-    'ecommerce.apps.common',
     'ecommerce.apps.profiles',
     'ecommerce.apps.products',
     'ecommerce.apps.users',

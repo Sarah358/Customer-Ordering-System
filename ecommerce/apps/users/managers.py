@@ -15,16 +15,16 @@ class CustomUserManager(BaseUserManager):
     # user
     def create_user(self, username, first_name, last_name, email, password, **extra_fields):
         if not username:
-            raise ValueError(_('users must provide a username '))
+            raise ValueError(_('users must provide a username'))
         if not first_name:
-            raise ValueError(_('users must submit a first name '))
+            raise ValueError(_('users must provide a first name'))
         if not last_name:
-            raise ValueError(_('users must submit a last name  '))
+            raise ValueError(_('users must provide a last name'))
         if email:
             email = self.normalize_email(email)
             self.email_validator(email)
         else:
-            raise ValueError(_('an email address is required '))
+            raise ValueError(_('an email address is required'))
 
         user = self.model(
             username=username,
@@ -45,9 +45,9 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_active", True)
 
         if extra_fields.get("is_staff") is not True:
-            raise ValueError(_("Superuser must have is_staff=true"))
+            raise ValueError(_("Superuser must have is_staff=True"))
         if extra_fields.get("is_superuser") is not True:
-            raise ValueError(_("Superuser must have is_superuser=true"))
+            raise ValueError(_("Superuser must have is_superuser=True"))
         if not password:
             raise ValueError(_("Superuser must have a password"))
         if email:

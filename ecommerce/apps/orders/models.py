@@ -24,7 +24,7 @@ class Order(models.Model):
         ordering = ('-created_at',)
 
     def __str__(self):
-        return self.buyer.get_full_name()
+        return self.buyer.get_full_name
 
     @cached_property
     def total_cost(self):
@@ -46,7 +46,7 @@ class OrderItem(models.Model):
         ordering = ('-created_at',)
 
     def __str__(self):
-        return self.order.buyer.get_full_name()
+        return self.order.buyer.get_full_name
 
     @cached_property
     def cost(self):
