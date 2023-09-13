@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'djoser',
     'rest_framework_simplejwt',
-    'flower',
     # internal apps
     'ecommerce.apps.profiles',
     'ecommerce.apps.products',

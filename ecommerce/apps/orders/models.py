@@ -11,8 +11,9 @@ User = get_user_model()
 class Order(models.Model):
     PENDING = 'P'
     COMPLETED = 'C'
+    PLACED = 'L'
 
-    STATUS_CHOICES = ((PENDING, _('pending')), (COMPLETED, _('completed')))
+    STATUS_CHOICES = ((PENDING, _('pending')), (COMPLETED, _('completed')), (PLACED, _('placed')))
 
     buyer = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=PENDING)

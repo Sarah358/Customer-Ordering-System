@@ -1,10 +1,13 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from .models import Order, OrderItem
 from .permissions import IsOrderItemPending, IsOrderPending
 from .serializers import OrderItemSerializer, OrderReadSerializer, OrderWriteSerializer
+from .tasks import send_order_confirmation_sms
 
 
 class OrderItemViewSet(viewsets.ModelViewSet):
@@ -68,3 +71,19 @@ class OrderViewSet(viewsets.ModelViewSet):
             self.permission_classes += [IsOrderPending]
 
         return super().get_permissions()
+
+    @action(detail=True, methods=['post'])
+    def checkout(self, request, pk=None):
+        order = self.get_object()
+        order.status = Order.PLACED
+        order.save()
+
+        # You can trigger the task to send SMS here
+        send_order_confirmation_sms.delay(order.id)
+
+        return Response(
+            {
+                "message": "Order placed successfully. You will receive a confirmation message shortly."
+            },
+            status=status.HTTP_200_OK,
+        )
