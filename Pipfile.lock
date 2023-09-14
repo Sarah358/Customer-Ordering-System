@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9e063775f5f50b91bb188bd5d2790dd9142745d98880dd4e8aca77a0b6a53154"
+            "sha256": "5bb68ea275e2a6e6db638447350ba4c1de44159af1eb4010c83c232d8397d2ce"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -629,6 +629,14 @@
             ],
             "index": "pypi",
             "version": "==0.26.4"
+        },
+        "drf-yasg": {
+            "hashes": [
+                "sha256:4c3b93068b3dfca6969ab111155e4dd6f7b2d680b98778de8fd460b7837bdb0d",
+                "sha256:f85642072c35e684356475781b7ecf5d218fff2c6185c040664dd49f0a4be181"
+            ],
+            "index": "pypi",
+            "version": "==1.21.7"
         },
         "exceptiongroup": {
             "hashes": [
