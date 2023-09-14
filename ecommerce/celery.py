@@ -13,3 +13,8 @@ app = Celery("ecommerce")
 app.config_from_object("ecommerce.settings.development", namespace="CELERY"),
 
 app.autodiscover_tasks(lambda: base.INSTALLED_APPS)
+
+
+@app.task(bind=True)
+def debug_task(self):
+    print('Request: {0!r}'.format(self.request))

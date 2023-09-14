@@ -65,3 +65,5 @@ isort-diff:
 
 isort:
 	docker compose exec api isort . --skip env --skip migrations
+spectacular:
+	docker compose exec api python3 manage.py spectacular --file schema.yml
