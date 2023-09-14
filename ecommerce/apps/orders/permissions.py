@@ -10,7 +10,7 @@ class IsOrderPending(BasePermission):
     Check the status of order is pending or completed before updating/deleting instance
     """
 
-    message = _('Updating or deleting closed order is not allowed.')
+    message = _('Updating or deleting placed order is not allowed.')
 
     def has_object_permission(self, request, view, obj):
         if view.action in ('retrieve',):
@@ -23,7 +23,7 @@ class IsOrderItemPending(BasePermission):
     Check the status of order is pending or completed before creating, updating and deleting order items
     """
 
-    message = _('Creating, updating or deleting order items for a closed order is not allowed.')
+    message = _('Creating, updating or deleting order items for a placed order is not allowed.')
 
     def has_permission(self, request, view):
         order_id = view.kwargs.get('order_id')

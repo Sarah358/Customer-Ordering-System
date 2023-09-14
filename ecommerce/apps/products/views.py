@@ -1,6 +1,8 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 
+from .filters import ProductFilter
 from .models import Category, Product
 from .serializers import (
     ProductCategoryReadSerializer,
@@ -26,6 +28,8 @@ class ProductReadViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Product.objects.all()
     serializer_class = ProductReadSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ProductFilter
 
 
 class ProductWriteViewSet(viewsets.ModelViewSet):

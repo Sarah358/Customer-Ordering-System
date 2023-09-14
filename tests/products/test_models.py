@@ -58,6 +58,9 @@ def test_product_category_relation():
 
 @pytest.mark.django_db
 def test_category_name_uniqueness():
+    CategoryFactory(name="Test Category")
+
+    # Attempt to create another category with the same name
     with pytest.raises(IntegrityError):
         CategoryFactory(name="Test Category")  # Duplicate name should raise IntegrityError
 

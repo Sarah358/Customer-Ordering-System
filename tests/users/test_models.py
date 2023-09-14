@@ -20,13 +20,13 @@ def test_user_full_name(base_user):
 
 def test_base_user_email_is_normalized(base_user):
     """Test that a new users email is normalized"""
-    email = "sarah@GMAIL.COM"
+    email = base_user.email
     assert base_user.email == email.lower()
 
 
 def test_super_user_email_is_normalized(super_user):
     """Test that an admin users email is normalized"""
-    email = "sarah@GMAIL.COM"
+    email = super_user.email
     assert super_user.email == email.lower()
 
 

@@ -15,7 +15,7 @@ def send_order_confirmation_sms(order_id):
     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
     # Message
-    message = f"Thank you for your order with us! Your order ID is {order.id}. Total cost: {order.total_cost}"
+    message = f"Thank you for your order with us! Your order reference code is {order.ref}. Total cost: {order.total_cost}"
 
     # Send the SMS using Twilio
     response = client.messages.create(

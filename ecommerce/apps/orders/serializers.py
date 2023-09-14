@@ -1,3 +1,5 @@
+import uuid
+
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
@@ -68,7 +70,16 @@ class OrderReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('id', 'buyer', 'order_items', 'total_cost', 'status', 'created_at', 'updated_at')
+        fields = (
+            'id',
+            'buyer',
+            'ref',
+            'order_items',
+            'total_cost',
+            'status',
+            'created_at',
+            'updated_at',
+        )
 
     def get_total_cost(self, obj):
         return obj.total_cost
@@ -84,18 +95,14 @@ class OrderWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = (
-            'id',
-            'buyer',
-            'status',
-            'order_items',
-            'created_at',
-            'updated_at',
-        )
-        read_only_fields = ('status',)
+        fields = ('id', 'buyer', 'status', 'order_items', 'created_at', 'updated_at', 'ref')
+        read_only_fields = ('status', 'ref')
 
     def create(self, validated_data):
         orders_data = validated_data.pop('order_items')
+        # Generate a unique reference code
+        ref = str(uuid.uuid4())
+        validated_data['ref'] = ref
         order = Order.objects.create(**validated_data)
 
         for order_data in orders_data:

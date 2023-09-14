@@ -17,6 +17,7 @@ class Order(models.Model):
 
     buyer = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=PENDING)
+    ref = models.CharField(max_length=100, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

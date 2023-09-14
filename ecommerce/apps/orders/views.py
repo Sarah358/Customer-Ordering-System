@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import status, viewsets
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -55,6 +55,9 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     permission_classes = [IsAuthenticated]
 
+    # enable filtering by order status
+    filter_backends = [filters.OrderingFilter]
+
     def get_serializer_class(self):
         if self.action in ('create', 'update', 'partial_update', 'destroy'):
             return OrderWriteSerializer
@@ -64,6 +67,13 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         res = super().get_queryset()
         user = self.request.user
+
+        # Retrieve the "status" query parameter from the URL
+        status_param = self.request.query_params.get('status')
+
+        # Filter orders by status if the "status" query parameter is provided
+        if status_param:
+            res = res.filter(status=status_param)
         return res.filter(buyer=user)
 
     def get_permissions(self):
@@ -75,10 +85,22 @@ class OrderViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def checkout(self, request, pk=None):
         order = self.get_object()
+
+        if order.status == Order.COMPLETED:
+            return Response(
+                {"error": "This order has already been completed."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if order.status == Order.PLACED:
+            return Response(
+                {"error": "This order has already been placed."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         order.status = Order.PLACED
         order.save()
 
-        # You can trigger the task to send SMS here
+        # trigger the task to send SMS
         send_order_confirmation_sms.delay(order.id)
 
         return Response(

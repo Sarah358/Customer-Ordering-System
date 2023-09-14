@@ -35,6 +35,7 @@ django-celery-email = "*"
 flower = "*"
 django-flower = "*"
 twilio = "*"
+django-filter = "*"
 
 [dev-packages]
 
