@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     'phonenumber_field',
     'djoser',
+    'drf_yasg',
     'rest_framework_simplejwt',
     # internal apps
     'ecommerce.apps.profiles',
@@ -93,7 +94,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Ecommerce',
+    'TITLE': 'Ecommerce Api',
 }
 
 LANGUAGE_CODE = "en-us"
