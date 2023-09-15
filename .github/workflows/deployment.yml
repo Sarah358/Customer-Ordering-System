@@ -4,32 +4,20 @@ on:
     branches:
       - main
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+  deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v3
-
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        server: www.sarahnjuguna.com
-        username: ${{ secrets.ftp_username }}
-        password: ${{ secrets.ftp_password }}
-        server-dir: /ecom.sarahnjuguna.com/
-     # Additional steps to deploy the Django app using pipenv
-    - name: 🐍 Set up Python and pipenv
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-
-    - name: 📦 Install Dependencies with pipenv
-      run: |
-        pip install pipenv
-        pipenv install --deploy --ignore-pipfile
-      env:
-        PIPENV_VENV_IN_PROJECT: 1  # Store the virtual environment in the project directory
-
-    - name: 🚀 Start Django Development Server with pipenv
-      run: pipenv run python manage.py runserver 0.0.0.0:8000
+      - name: Deploying to Ecommerce server
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.ECOM_PEM  }}
+          host : ${{ secrets.ECOM_HOSTNAME  }}
+          username : ${{ secrets.ECOM_USERNAME  }}
+          script: |
+            set -e
+            cd ~/Customer-Ordering-System
+            ls
+            git checkout main
+            git pull origin main
+            make down
+            make build
