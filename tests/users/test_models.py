@@ -34,7 +34,7 @@ def test_super_user_is_not_staff(user_factory):
     """Test that an error is raised when an admin user has is_staff set to false"""
     with pytest.raises(ValueError) as err:
         user_factory.create(is_superuser=True, is_staff=False)
-    assert str(err.value) == "Superuser must have is_staff=True"
+    assert str(err.value) == "Superusers must have is_staff=True"
 
 
 def test_super_user_is_not_superuser(user_factory):
