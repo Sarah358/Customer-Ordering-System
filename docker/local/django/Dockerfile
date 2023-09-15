@@ -1,16 +1,11 @@
 FROM python:3.10.0-slim-buster
 
-RUN groupadd -r ecommerce && useradd -r -g ecommerce ecommerce
-
 # SETUP WORKDIR
 ENV APP_HOME=/app
 RUN mkdir $APP_HOME
 RUN mkdir $APP_HOME/staticfiles
 WORKDIR $APP_HOME
 
-RUN chown -R ecommerce:ecommerce $APP_HOME
-
-USER ecommerce
 # SETUP META DATA FOR IMAGE
 LABEL maintainer = 'njerinjuguna358@gmail.com'
 LABEL description = "Development image for ecommerce api"
@@ -22,6 +17,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # allows display of application in real time
 ENV PYTHONUNBUFFERED 1
 
+USER root
 # INSTALL DEPENDENCIES (-Y ENSURES IT DOESNT STOP TO ASK FOR USER PROMPT)
 RUN apt-get update \
   && apt-get install -y build-essential \
