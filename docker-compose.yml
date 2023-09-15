@@ -11,7 +11,7 @@ services:
             - static_volume:/app/staticfiles
             - media_volume:/app/mediafiles
         expose:
-            - "8000"
+            - "80"
         env_file:
             - .env
         depends_on:
