@@ -37,6 +37,7 @@ django-flower = "*"
 twilio = "*"
 django-filter = "*"
 drf-yasg = "*"
+gunicorn = "*"
 
 [dev-packages]
 
