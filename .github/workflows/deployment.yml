@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -10,9 +11,9 @@ jobs:
       - name: Deploying to Ecommerce server
         uses: appleboy/ssh-action@master
         with:
-          key: ${{ secrets.ECOM_PEM  }}
-          host : ${{ secrets.ECOM_HOSTNAME  }}
-          username : ${{ secrets.ECOM_USERNAME  }}
+          key: ${{ secrets.ECOM_PEM }}
+          host: ${{ secrets.ECOM_HOSTNAME }}
+          username: ${{ secrets.ECOM_USERNAME }}
           script: |
             set -e
             cd ~/Customer-Ordering-System
@@ -21,3 +22,10 @@ jobs:
             git pull origin main
             make down
             make build
+            # Run tests and store the exit code
+            docker-compose exec api pytest -p no:warnings --cov=. || TEST_RESULT=$?
+
+            # If the tests failed, exit with the test result code
+            if [ -n "$TEST_RESULT" ]; then
+              exit $TEST_RESULT
+            fi
