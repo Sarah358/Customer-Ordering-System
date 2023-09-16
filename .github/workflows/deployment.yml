@@ -22,6 +22,8 @@ jobs:
             git pull origin main
             make down
             make build
+            make makemigrations
+            make migrate
             # Run tests and store the exit code
             docker-compose exec api pytest -p no:warnings --cov=. || TEST_RESULT=$?
 
