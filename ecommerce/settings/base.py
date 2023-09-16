@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     'phonenumber_field',
+    'djoser',
     'drf_yasg',
     'rest_framework.authtoken',
     # internal apps

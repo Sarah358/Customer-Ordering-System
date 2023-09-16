@@ -2,7 +2,7 @@ import pytest
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 
-from ecommerce.apps.products.models import Category, Product
+from ecommerce.apps.products.models import Category, Product, get_default_category
 
 from ..factories import CategoryFactory, ProductFactory
 
@@ -69,3 +69,12 @@ def test_category_name_uniqueness():
 def test_product_str_representation():
     product = ProductFactory(name="Test Product")
     assert str(product) == "Test Product"
+
+
+@pytest.mark.django_db
+def test_default_category():
+    # Get the default category using the get_default_category function
+    default_category = get_default_category()
+
+    # Check if the default category is "Others"
+    assert default_category.name == 'Others'
