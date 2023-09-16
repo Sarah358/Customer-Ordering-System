@@ -35,7 +35,7 @@ twilio = "*"
 django-filter = "*"
 drf-yasg = "*"
 gunicorn = "*"
-
+djoser = "*"
 
 [dev-packages]
 

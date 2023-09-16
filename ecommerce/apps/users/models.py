@@ -14,7 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     username = models.CharField(verbose_name=_("Username"), max_length=255, unique=True)
     first_name = models.CharField(verbose_name=_("First Name"), max_length=255)
-    last_name = models.CharField(verbose_name=_("Last Name"), max_length=255, unique=True)
+    last_name = models.CharField(verbose_name=_("Last Name"), max_length=255)
     phone_number = PhoneNumberField(
         verbose_name=_("Phone number"), max_length=30, default="+254799757282"
     )
