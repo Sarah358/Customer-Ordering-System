@@ -38,6 +38,8 @@ twilio = "*"
 django-filter = "*"
 drf-yasg = "*"
 gunicorn = "*"
+django-cors-headers = "*"
+djangorestframework-jwt = "*"
 
 [dev-packages]
 
