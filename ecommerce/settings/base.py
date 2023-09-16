@@ -31,11 +31,8 @@ INSTALLED_APPS = [
     # external packages
     "rest_framework",
     "drf_spectacular",
-    # 'corsheaders',
     'phonenumber_field',
-    'djoser',
     'drf_yasg',
-    'rest_framework_simplejwt',
     'rest_framework.authtoken',
     # internal apps
     'ecommerce.apps.profiles',
@@ -122,7 +119,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # custom user model
 AUTH_USER_MODEL = "users.User"
-JWT_SECRET = env("JWT_SECRET")
 
 
 # define loggers
