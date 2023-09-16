@@ -20,6 +20,7 @@ class UserAdmin(BaseUserAdmin):
         'username',
         'first_name',
         'last_name',
+        'phone_number',
         'is_staff',
         'is_active',
     ]
@@ -33,6 +34,7 @@ class UserAdmin(BaseUserAdmin):
                 "fields": (
                     "email",
                     "password",
+                    "otp",
                 )
             },
         ),
@@ -43,6 +45,7 @@ class UserAdmin(BaseUserAdmin):
                     "username",
                     "first_name",
                     "last_name",
+                    "phone_number",
                 )
             },
         ),

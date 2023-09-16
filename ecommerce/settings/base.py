@@ -31,10 +31,12 @@ INSTALLED_APPS = [
     # external packages
     "rest_framework",
     "drf_spectacular",
+    # 'corsheaders',
     'phonenumber_field',
     'djoser',
     'drf_yasg',
     'rest_framework_simplejwt',
+    'rest_framework.authtoken',
     # internal apps
     'ecommerce.apps.profiles',
     'ecommerce.apps.products',
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    # 'corsheaders.middleware.CorsMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -52,7 +55,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
 ROOT_URLCONF = "ecommerce.urls"
+# CORS_ALLOW_CREDENTIALS = True
 
 
 TEMPLATES = [
@@ -117,6 +122,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # custom user model
 AUTH_USER_MODEL = "users.User"
+JWT_SECRET = env("JWT_SECRET")
 
 
 # define loggers
@@ -159,46 +165,9 @@ logging.config.dictConfig(
         },
     }
 )
-# configure rest framework
+# Configure JWT settings
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
-}
-
-# configure simple jwt
-
-
-SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": (
-        "Bearer",
-        "JWT",
-    ),
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'SIGNING_KEY': env("SIGNING_KEY"),
-    'AUTH_HEADER_NAME': "HTTP_AUTHORIZATION",
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
-}
-
-# configure djoser
-DJOSER = {
-    "LOGIN_FIELD": "email",
-    "USER_CREATE_PASSWORD_RETYPE": True,
-    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
-    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
-    "SEND_CONFIRMATION_EMAIL": True,
-    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
-    "SET_PASSWORD_RETYPE": True,
-    "PASSWORD_RESET_CONFIRM_RETYPE": True,
-    "USERNAME_RESET_CONFIRM_URL": 'email/reset/confirm/{uid}/{token}',
-    "ACTIVATION_URL": "activate/{uid}/{token}",
-    "LOGOUT_URL": 'logout',
-    "SEND_ACTIVATION_EMAIL": True,
-    "SERIALIZERS": {
-        'user_create': 'ecommerce.apps.users.serializers.CreateUserSerializer',
-        'user': 'ecommerce.apps.users.serializers.UserSerializer',
-        'current_user': 'ecommerce.apps.users.serializers.UserSerializer',
-        'user_delete': 'djoser.serializers.UserDeleteSerializer',
-    },
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }

@@ -1,6 +1,9 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth.base_user import BaseUserManager
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
@@ -13,13 +16,17 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_('You must provide a valid email address'))
 
     # user
-    def create_user(self, username, first_name, last_name, email, password, **extra_fields):
+    def create_user(
+        self, username, first_name, last_name, phone_number, email, password, **extra_fields
+    ):
         if not username:
             raise ValueError(_('users must provide a username'))
         if not first_name:
             raise ValueError(_('users must provide a first name'))
         if not last_name:
             raise ValueError(_('users must provide a last name'))
+        if not phone_number:
+            raise ValueError(_('users must provide a phone_number'))
         if email:
             email = self.normalize_email(email)
             self.email_validator(email)
@@ -30,7 +37,10 @@ class CustomUserManager(BaseUserManager):
             username=username,
             first_name=first_name,
             last_name=last_name,
+            phone_number=phone_number,
             email=email,
+            otp=None,
+            otp_expiration=None,
             **extra_fields
         )
         user.set_password(password)
@@ -39,7 +49,25 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, first_name, last_name, email, password, **extra_fields):
+    def set_otp(self, user, otp):
+        user.otp = otp
+        user.otp_expiration = timezone.now() + timedelta(
+            minutes=10
+        )  # Set OTP expiration to 10 minutes from now
+        user.save()
+
+    def verify_otp(self, user, otp):
+        if user.otp == otp and user.otp_expiration >= timezone.now():
+            user.is_active = True
+            user.otp = None  # Clear OTP
+            user.otp_expiration = None  # Clear OTP expiration
+            user.save()
+            return True
+        return False
+
+    def create_superuser(
+        self, username, first_name, last_name, phone_number, email, password, **extra_fields
+    ):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
@@ -56,6 +84,8 @@ class CustomUserManager(BaseUserManager):
         else:
             raise ValueError(_('an email address is required for admin account'))
 
-        user = self.create_user(username, first_name, last_name, email, password, **extra_fields)
+        user = self.create_user(
+            username, first_name, last_name, phone_number, email, password, **extra_fields
+        )
         user.save(using=self._db)
         return user

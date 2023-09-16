@@ -31,6 +31,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     first_name = factory.LazyAttribute(lambda x: faker.first_name())
     last_name = factory.LazyAttribute(lambda x: faker.last_name())
     username = factory.LazyAttribute(lambda x: faker.first_name())
+    phone_number = factory.LazyAttribute(lambda x: faker.phone_number())
     email = factory.LazyAttribute(lambda x: faker.email())
     password = factory.LazyAttribute(lambda x: faker.password())
     is_active = True

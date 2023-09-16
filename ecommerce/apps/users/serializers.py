@@ -36,6 +36,9 @@ class UserSerializer(serializers.ModelSerializer):
     def get_last_name(self, obj):
         return obj.last_name.title()
 
+    # def get_full_name(self, obj):
+    #     return obj.get_full_name()
+
     # lets you put a value to the serializer
     # add admin=true to a superuser
     def to_representation(self, instance):
@@ -48,4 +51,14 @@ class UserSerializer(serializers.ModelSerializer):
 class CreateUserSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'password']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone_number', 'password']
+
+
+class VerifyOTPSerializer(serializers.Serializer):
+    user_id = serializers.UUIDField()
+    otp = serializers.IntegerField()
+
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
