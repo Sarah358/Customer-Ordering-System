@@ -1,9 +1,10 @@
 from decimal import Decimal
 
 from django.test import TestCase
+from requests import Request
 
 from ecommerce.apps.orders.models import Order, OrderItem
-from ecommerce.apps.orders.serializers import OrderItemSerializer
+from ecommerce.apps.orders.serializers import OrderItemSerializer, OrderWriteSerializer
 from ecommerce.apps.products.models import Product
 from ecommerce.apps.users.models import User
 
