@@ -1,27 +1,35 @@
-import pytest
-from rest_framework.exceptions import ValidationError
-from rest_framework.test import APIClient
+from decimal import Decimal
 
-from ecommerce.apps.orders.models import Order
-from ecommerce.apps.orders.serializers import (
-    OrderItemSerializer,
-    OrderReadSerializer,
-    OrderWriteSerializer,
-)
+from django.test import TestCase
 
-from ..factories import OrderFactory, OrderItemFactory, ProductFactory, UserFactory
+from ecommerce.apps.orders.models import Order, OrderItem
+from ecommerce.apps.orders.serializers import OrderItemSerializer
+from ecommerce.apps.products.models import Product
+from ecommerce.apps.users.models import User
 
 
-@pytest.mark.django_db
-def test_order_read_serializer():
-    user = UserFactory()
-    product = ProductFactory()
-    order = OrderFactory(buyer=user)
-    order_item = OrderItemFactory(order=order, product=product)
+class OrderItemSerializerTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create(username='testuser')
+        self.product = Product.objects.create(name='Test Product', stock=10, price=20)
+        self.order = Order.objects.create(buyer=self.user, status=Order.PENDING)
 
-    serializer = OrderReadSerializer(instance=order)
-    assert serializer.data["id"] == order.id
-    assert serializer.data["buyer"] == order.buyer.get_full_name
-    assert serializer.data["total_cost"] == order.total_cost
-    assert len(serializer.data["order_items"]) == 1
-    assert serializer.data["order_items"][0]["product_name"] == order_item.product.name
+    def test_order_item_serialization(self):
+        order_item = OrderItem.objects.create(product=self.product, quantity=3, order=self.order)
+        serializer = OrderItemSerializer(order_item)
+        expected_data = {
+            'id': order_item.id,
+            'order': self.order.id,
+            'product': self.product.id,
+            'product_name': self.product.name,
+            'quantity': 3,
+            'price': Decimal('20.00'),  # Use Decimal type for price
+            'cost': Decimal('60.00'),  # Use Decimal type for cost
+            'created_at': order_item.created_at.strftime(
+                '%Y-%m-%dT%H:%M:%S.%fZ'
+            ),  # Updated format
+            'updated_at': order_item.updated_at.strftime(
+                '%Y-%m-%dT%H:%M:%S.%fZ'
+            ),  # Updated format
+        }
+        self.assertEqual(serializer.data, expected_data)
