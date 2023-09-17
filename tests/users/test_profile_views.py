@@ -33,6 +33,7 @@ def test_get_profile(base_user):
 @pytest.mark.django_db
 def test_update_profile(base_user):
     # Create an instance of the APIClient
+    profile = ProfileFactory(user=base_user)
 
     api_client = APIClient()
 
