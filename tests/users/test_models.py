@@ -162,15 +162,3 @@ def test_verify_otp_incorrect(user_with_otp):
     assert not user_with_otp.is_active
     assert user_with_otp.otp is not None
     assert user_with_otp.otp_expiration is not None
-
-
-# @pytest.mark.django_db
-# def test_set_otp():
-#     user = User.objects.create(email="test@example.com", password="password")
-#     user_manager = User.objects  # Access the manager
-
-#     user_manager.set_otp(user, 123456)
-
-#     assert user.otp == 123456
-#     assert user.otp_expiration >= timezone.now() + timedelta(minutes=9)  # OTP should expire within 9-10 minutes
-#     assert user.otp_expiration <= timezone.now() + timedelta(minutes=10)
