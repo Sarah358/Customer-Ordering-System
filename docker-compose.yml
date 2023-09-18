@@ -80,8 +80,8 @@ services:
             context: ./docker/local/nginx
             dockerfile: Dockerfile
         ports:
-            - "80:80"
-            - "443:443"  # port mapping for HTTPS
+            - "8080:80"
+            - "8443:443"  # port mapping for HTTPS
         networks:
             - ecommerce
 
