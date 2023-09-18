@@ -1,4 +1,5 @@
-name: 🚀 Deploy Ecommerce api
+name: 🚀 Deploy Ecommerce API
+
 on:
   push:
     branches:
@@ -24,9 +25,17 @@ jobs:
             make build
             make makemigrations
             make migrate
+            # Update Nginx configuration with SSL/TLS certificate paths in default.conf
+            sed -i "s|{{SSL_CERT_PATH}}|/etc/letsencrypt/live/ecom.sarahnjuguna.com/fullchain.pem|g" /docker/local/nginx/default.conf
+            sed -i "s|{{SSL_KEY_PATH}}|/etc/letsencrypt/live/ecom.sarahnjuguna.com/privkey.pem|g" /docker/local/nginx/default.conf
+            # Restart Nginx to apply the changes
+            docker exec -it customer-ordering-system-nginx-1 nginx -s reload
+
+            # Restart Docker containers
+            docker-compose down
+            docker-compose up -d
             # Run tests and store the exit code
             docker-compose exec api pytest -p no:warnings --cov=. || TEST_RESULT=$?
-
             # If the tests failed, exit with the test result code
             if [ -n "$TEST_RESULT" ]; then
               exit $TEST_RESULT

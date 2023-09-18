@@ -121,7 +121,6 @@ class LoginView(APIView):
                 token.expires = timezone.now() + timedelta(hours=24)  # Set expiration time
                 token.save()
 
-                # Set the token as a cookie
                 response = Response({'token': token.key}, status=status.HTTP_200_OK)
                 response.set_cookie(key='token', value=token.key, httponly=True)
 

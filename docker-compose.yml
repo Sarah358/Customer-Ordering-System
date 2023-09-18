@@ -75,11 +75,13 @@ services:
         volumes:
             - static_volume:/app/staticfiles
             - media_volume:/app/mediafiles
+            - /etc/letsencrypt:/etc/letsencrypt  # Mount the SSL/TLS certificates
         build:
             context: ./docker/local/nginx
             dockerfile: Dockerfile
         ports:
             - "80:80"
+            - "443:443"  # port mapping for HTTPS
         networks:
             - ecommerce
 
