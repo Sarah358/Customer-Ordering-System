@@ -1,7 +1,7 @@
-name: Run Tests
+name: Run Tests on Ecommerce API
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -9,11 +9,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Transfer .env File
+        run: |
+          scp ${{ secrets.ECOM_USERNAME }}@${{ secrets.ECOM_HOSTNAME }}:~/.env .env
 
       - name: Set up Docker Compose
         run: docker-compose up -d
 
-      - name: Run tests
-        run: docker-compose exec api pytest -p no:warnings --cov=.
+      - name: Run Tests
+        run: |
+          source .env  # Load environment variables from the transferred .env file
+          docker-compose exec api pytest -p no:warnings --cov=.
+
+      - name: Remove .env File
+        run: rm .env  # Remove the .env file after it's done being used
