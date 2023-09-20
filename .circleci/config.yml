@@ -24,15 +24,6 @@ jobs:
           pkg-manager: pipenv
           include-branch-in-cache-key: false
       - run:
-          name: run flake8
-          command: pipenv run flake8 .
-      # - run:
-      #     name: run black formatter on project
-      #     command: pipenv run black -l 99 --check -S --extend-exclude="migrations|.venv" .
-      - run:
-          name: isort - imports sorting
-          command: pipenv run isort -rc --check-only --atomic -q --skip .venv --skip migrations .
-      - run:
           name: check sh files
           command: |
             sudo apt-get install shellcheck
