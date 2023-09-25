@@ -24,6 +24,10 @@ jobs:
           pkg-manager: pipenv
           include-branch-in-cache-key: false
       - run:
+        name: Create logs folder
+        command: mkdir -p logs
+
+      - run:
           name: check sh files
           command: |
             sudo apt-get install shellcheck
