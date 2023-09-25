@@ -27,7 +27,7 @@ jobs:
             make migrate
             # Run tests and store the exit code
             docker-compose exec api pytest -p no:warnings --cov=. || TEST_RESULT=$?
-            # If the tests failed, exit with the test result code
+            # # If the tests failed, exit with the test result code
             if [ -n "$TEST_RESULT" ]; then
               exit $TEST_RESULT
             fi
